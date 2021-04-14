@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Identity
+@using MVCManukauTech.Areas.Identity.Data;
+@inject SignInManager<MVCManukauTechUser> SignInManager
+@inject UserManager<MVCManukauTechUser> UserManager
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("Admin"))
+    {
+        <section class="p-3 mb-2 adminPanel">
+            <div class="row">
+                <div class="col-md-6">
+                    <a asp-area="" asp-controller="Products" asp-action="Index">Products</a> | 
+                    <a asp-area="" asp-controller="Memberships" asp-action="Index">Memberships</a> | 
+                    <a asp-area="" asp-controller="Reports" asp-action="Index">Reports</a>
+                </div>
+                <div class="col-md-6 text-right welcome-admin">
+                    Welcome, Admin
+                </div>
+            </div>
+        </section>
+    }
+}

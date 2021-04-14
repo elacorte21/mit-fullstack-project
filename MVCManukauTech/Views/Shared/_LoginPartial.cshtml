@@ -1,0 +1,27 @@
+@using Microsoft.AspNetCore.Identity
+@using MVCManukauTech.Areas.Identity.Data;
+@inject SignInManager<MVCManukauTechUser> SignInManager
+@inject UserManager<MVCManukauTechUser> UserManager
+
+<ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="OrderDetails" asp-action="ShoppingCart"><img src="~/images/icon-cart.svg" width="24" alt="cart" class="navicons"><span class="d-block d-sm-none">Shopping Cart</span></a>
+    </li>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="@User.Identity.Name"><img src="~/images/icon-profile.svg" width="24" alt="@User.Identity.Name" class="navicons"><span class="d-block d-sm-none">Profile</span></a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Store", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

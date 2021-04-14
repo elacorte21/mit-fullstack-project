@@ -1,0 +1,81 @@
+﻿@model IEnumerable<MVCManukauTech.ViewModels.SubscribeViewModel>
+@using Microsoft.AspNetCore.Identity
+@using MVCManukauTech.Areas.Identity.Data;
+@inject UserManager<MVCManukauTechUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+
+    bool isSubscribed = false;
+    bool isExpired = false;
+    foreach (var model in Model)
+    {
+        if (model.UserName == @User.Identity.Name)
+        {
+            isSubscribed = true;
+            if (model.ExpiryDate != null && model.ExpiryDate < DateTime.Now)
+            {
+                isExpired = true;
+            }
+            break;
+        }
+    }
+}
+
+@if (isSubscribed)
+{
+    @if (!isExpired)
+    {
+        <h1>You're a member</h1>
+        <h3 class="mb-3">Enjoy offers and discounts on all items.</h3>
+    }
+    else
+    {
+        <h1 class="mb-3 text-danger">We regret to inform you that your membership has expired.</h1>
+        <h3>Please signup again to enjoy member discounts.</h3>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 text-center membership mb-4">
+                    <img src="~/images/@Html.DisplayFor(modelItem => item.MembershipImage)" />
+                    <h3>
+                        @Html.DisplayFor(modelItem => item.MembershipName)
+                    </h3>
+                    <h4>
+                        Get @Html.DisplayFor(modelItem => item.MemberDiscount)% Discount <br>
+                        for only NZD @Html.DisplayFor(modelItem => item.MembershipCost)
+                    </h4>
+                    <p>
+                        For @Html.DisplayFor(modelItem => item.Expiry) Day(s)
+                    </p>
+                    <a href="~/SubscribeDetails/ShoppingCart?MembershipId=@item.MembershipId" class="btn btn-outline-dark">Subscribe Now</a>
+                </div>
+            }
+        </div>
+    }
+}
+else
+{
+    <h1>Be a Member</h1>
+    <h3 class="mb-3">Signup on our Membership Programme to enjoy benefits and discounts.</h3>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-6 text-center membership mb-4">
+                <img src="~/images/@Html.DisplayFor(modelItem => item.MembershipImage)" />
+                <h3>
+                    @Html.DisplayFor(modelItem => item.MembershipName)
+                </h3>
+                <h4>
+                    Get @Html.DisplayFor(modelItem => item.MemberDiscount)% Discount <br>
+                    for only NZD @Html.DisplayFor(modelItem => item.MembershipCost)
+                </h4>
+                <p>
+                    For @Html.DisplayFor(modelItem => item.Expiry) Day(s)
+                </p>
+                <a href="~/SubscribeDetails/ShoppingCart?MembershipId=@item.MembershipId" class="btn btn-outline-dark">Subscribe Now</a>
+            </div>
+        }
+    </div>
+}

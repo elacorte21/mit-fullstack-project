@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Glorious End Music</title>
+
+    <!-- 2019-03-19 JPC Bootstrap CDN links from W3Schools
+        https://www.w3schools.com/bootstrap4/bootstrap_get_started.asp  -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/js/site.js"></script>
+</head>
+<body>
+    @*Eddril - Admin Dashboard*@
+    <partial name="_AdminPartial" />
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow border-bottom">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Store" asp-action="Index"><img src="~/images/logo-ge.svg" alt="Glorious End Band" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"><img src="~/images/icon-menu.svg"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
+                    <partial name="_LoginPartial" />
+
+                    <partial name="_MenuPartial" />
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="bannerHolder"></div>
+
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            @* Eddril - Fictional message *@
+            &copy; 2020 - Glorious End Band - <a asp-area="" asp-controller="About" asp-action="Index">This is a Student Project</a> (this organisation is not real).
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

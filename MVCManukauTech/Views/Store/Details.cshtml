@@ -1,0 +1,56 @@
+﻿@model MVCManukauTech.ViewModels.StoreViewModel
+@using Microsoft.AspNetCore.Identity
+@using MVCManukauTech.Areas.Identity.Data;
+@inject UserManager<MVCManukauTechUser> UserManager
+
+@{
+    ViewData["Title"] = "Details";
+
+    bool isSubscribed = false;
+    bool isExpired = false;
+
+    if (Model.UserName == @User.Identity.Name)
+    {
+        isSubscribed = true;
+        if (Model.ExpiryDate != null && Model.ExpiryDate < DateTime.Now)
+        {
+            isExpired = true;
+        }
+    }
+
+    var unitCost = Convert.ToDouble(Model.UnitCost).ToString("#0.00");
+    var discount = Model.UnitCost - (Model.UnitCost * Model.MemberDiscount / 100);
+    var discountCost = Convert.ToDouble(discount).ToString("#0.00");
+}
+
+<div class="row justify-content-center mb-5">
+    <div class="col-md-5">
+        <img src="~/Images/Products/@Model.ImageFileName" width="100%" />
+    </div>
+    <div class="col-md-5 product">
+        <h5 class="text-muted">@Model.CategoryName</h5>
+        <h1 class="mb-4">@Model.Name</h1>
+
+        @if (isSubscribed)
+        {
+            @if (!isExpired)
+            {
+                <h5><span class="slashPrice">NZD @unitCost</span></h5>
+                <h3><span class="salePrice">NZD @discountCost</span></h3>
+            }
+            else
+            {
+                <h3 class="price">NZD @unitCost</h3>
+                <p><a class="text-danger" href="~/Subscribe">Expired membership?</a></p>
+            }
+        }
+        else
+        {
+            <h3 class="price">NZD @unitCost</h3>
+        }
+        <a href="~/OrderDetails/ShoppingCart?ProductId=@Model.ProductId" class="btn-lg btn-dark mt-4">Add to Cart</a>
+    </div>
+</div>
+<div class="text-center">
+    <a class="btn btn-outline-dark" asp-action="Index">Back to Store</a>
+</div>

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<MVCManukauTech.ViewModels.ReportsViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Order Report</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                OrderId
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                Order Date
+            </th>
+            <th>
+                TransactionId
+            </th>
+            <th>
+                Grand Total
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionId)
+            </td>
+            <td>
+                NZD @Html.DisplayFor(modelItem => item.GrandTotal)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

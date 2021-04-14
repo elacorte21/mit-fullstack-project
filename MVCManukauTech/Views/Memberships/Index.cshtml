@@ -1,0 +1,62 @@
+﻿@model IEnumerable<MVCManukauTech.Models.DB.Membership>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Memberships</h1>
+<p>
+    <a asp-action="Create">Add Membership Type</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                Membership Type
+            </th>
+            <th>
+                Discount(%)
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Cost
+            </th>
+            <th>
+                Expiry(in days)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img src="~/images/@item.MembershipImage" width="48" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MembershipName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberDiscount)%
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MembershipDesc)
+            </td>
+            <td>
+                NZD @Html.DisplayFor(modelItem => item.MembershipCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expiry) Day(s)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MembershipId">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.MembershipId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

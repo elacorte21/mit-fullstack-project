@@ -1,0 +1,73 @@
+﻿@model IEnumerable<MVCManukauTech.ViewModels.StoreViewModel>
+@using Microsoft.AspNetCore.Identity
+@using MVCManukauTech.Areas.Identity.Data;
+@inject UserManager<MVCManukauTechUser> UserManager
+
+@{
+    //Are we showing all the products or only one category?
+    if (ViewBag.CategoryName == null)
+    {
+        ViewBag.Title = "Store";
+    }
+    else
+    {
+        ViewBag.Title = "Store - " + ViewBag.CategoryName;
+    }
+
+    bool isSubscribed = false;
+    bool isExpired = false;
+
+    foreach (var model in Model)
+    {
+        if (model.UserName == @User.Identity.Name)
+        {
+            isSubscribed = true;
+            if (model.ExpiryDate != null && model.ExpiryDate < DateTime.Now)
+            {
+                isExpired = true;
+            }
+            break;
+        }
+
+    }
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        var unitCost = Convert.ToDouble(item.UnitCost).ToString("#0.00");
+        var discount = item.UnitCost - (item.UnitCost * item.MemberDiscount / 100);
+        var discountCost = Convert.ToDouble(discount).ToString("#0.00");
+
+    <div class="col-lg-4 col-md-6 products">
+
+        <a href="~/Store/Details?ProductId=@item.ProductId"><img src="~/Images/Products/@item.ImageFileName" width="100%" /></a>
+        <h4><a href="~/Store/Details?ProductId=@item.ProductId" class="productName">@item.Name</a></h4>
+        <p class="cats">@item.CategoryName</p>
+        @if (isSubscribed)
+        {
+            @if (!isExpired)
+            {
+                <h5><span class="slashPrice">NZD @unitCost</span> <span class="salePrice">NZD @discountCost</span></h5>
+            }
+            else
+            {
+                <h5 class="price">NZD @unitCost</h5>
+                <p><a class="text-danger" href="~/Subscribe">Expired membership?</a></p>
+            }
+        }
+        else
+        {
+            <h5 class="price">NZD @unitCost</h5>
+        }
+        <a href="~/OrderDetails/ShoppingCart?ProductId=@item.ProductId" class="btn btn-outline-dark">Add to Cart</a>
+
+    </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#bannerHolder').append('<img src="images/banner.jpg" class="banner" />');
+    });
+</script>
